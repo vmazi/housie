@@ -50,9 +50,10 @@ public class Player implements Runnable {
                     calculateWinners();
                     // mark player turn as done
                     gameData.getPlayerTurnFlag()[id] = false;
-                    //notify all others waiting on the game lock
-                    gameData.getGameLoopLock().notifyAll();
                 }
+                //notify all others waiting on the game lock
+                gameData.getGameLoopLock().notifyAll();
+
             }
         }
     }
