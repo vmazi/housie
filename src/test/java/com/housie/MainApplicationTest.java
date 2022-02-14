@@ -1,5 +1,6 @@
 package com.housie;
 
+import com.housie.model.Dealer;
 import com.housie.model.GameData;
 import com.housie.model.Player;
 import com.housie.model.ticket.Ticket;
@@ -29,9 +30,9 @@ public class MainApplicationTest {
     @Test
     public void calculateEarlyFiveWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
 
         List<Integer> fiveNumbers = new ArrayList<>();
         Set<Integer> numberSet = testPlayer.getTicket().getTicketNumbers().keySet();
@@ -45,8 +46,8 @@ public class MainApplicationTest {
         for(Integer announce : fiveNumbers){
             testPlayer.markNumber(announce);
         }
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
         assertTrue(gameData.isEarlyFiveSuccess());
         assertEquals(testPlayer,gameData.getEarlyFivePlayer());
     }
@@ -54,17 +55,16 @@ public class MainApplicationTest {
     @Test
     public void calculateFullHouseWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
-
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
         Set<Integer> numberSet = testPlayer.getTicket().getTicketNumbers().keySet();
 
         for(Integer announce : numberSet){
             testPlayer.markNumber(announce);
         }
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
 
         assertTrue(gameData.isFullHouseSuccess());
         assertEquals(testPlayer,gameData.getFullHouseWinner());
@@ -73,9 +73,9 @@ public class MainApplicationTest {
     @Test
     public void calculateTopLineWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
 
         TicketSpot[] firstTicketRow = testPlayer.getTicket().getTicketRows().get(0);
         int filledTicketSpots = 0;
@@ -86,8 +86,8 @@ public class MainApplicationTest {
 
             }
         }
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
 
         assertEquals(filledTicketSpots,5);
         assertTrue(gameData.isTopLineSuccess());
@@ -97,9 +97,9 @@ public class MainApplicationTest {
     @Test
     public void calculateNoEarlyFiveWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
 
         TicketSpot[] firstTicketRow = testPlayer.getTicket().getTicketRows().get(0);
         int filledTicketSpots = 0;
@@ -111,8 +111,8 @@ public class MainApplicationTest {
             }
         }
         testPlayer.markNumber(lastInRow);
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
 
         assertEquals(filledTicketSpots,5);
         assertFalse(gameData.isEarlyFiveSuccess());
@@ -122,9 +122,9 @@ public class MainApplicationTest {
     @Test
     public void calculateNoFullHouseWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
 
         TicketSpot[] firstTicketRow = testPlayer.getTicket().getTicketRows().get(0);
         int filledTicketSpots = 0;
@@ -136,8 +136,8 @@ public class MainApplicationTest {
             }
         }
         testPlayer.markNumber(lastInRow);
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
 
         assertEquals(filledTicketSpots,5);
         assertFalse(gameData.isFullHouseSuccess());
@@ -147,9 +147,9 @@ public class MainApplicationTest {
     @Test
     public void calculateNoTopLineWinner(){
         GameData gameData = new GameData(20,3, 10, 5, 5);
-
-        Player testPlayer = new Player(gameData,0);
-        Player testPlayer2 = new Player(gameData,1);
+        Dealer dealer = new Dealer(gameData);
+        Player testPlayer = new Player(gameData,dealer,0);
+        Player testPlayer2 = new Player(gameData,dealer,1);
 
         TicketSpot[] firstTicketRow = testPlayer.getTicket().getTicketRows().get(0);
         int filledTicketSpots = 0;
@@ -161,8 +161,8 @@ public class MainApplicationTest {
             }
         }
         testPlayer.markNumber(lastInRow);
-        testPlayer.calculateWinners();
-        testPlayer2.calculateWinners();
+        testPlayer.calculateWinners(true);
+        testPlayer2.calculateWinners(true);
 
         assertEquals(filledTicketSpots,5);
         assertFalse(gameData.isTopLineSuccess());

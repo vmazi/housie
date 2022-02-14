@@ -58,14 +58,14 @@ public class Dealer implements Runnable {
                         e.printStackTrace();
                     }
                 }
-                notifyWinners(); //notify of any applicable winners
+                notifyWinners(false); //notify of any applicable winners
             }
-            notifyWinners();
+            notifyWinners(false);
             gameData.getGameLoopLock().notifyAll(); // If at all any player is waiting
         }
     }
 
-    public void notifyWinners(){
+    public void notifyWinners(boolean test){
         if (gameData.isTopLineSuccess() && !topLineNotified) {
             System.out.println("We have a winner: Player#" + gameData.getTopLinePlayer().getId() +
                     " has won 'Top Line' winning combination.");
@@ -90,10 +90,12 @@ public class Dealer implements Runnable {
             System.out.println("       Summary        ");
             System.out.println("Early Five Winner: Player#" + gameData.getEarlyFivePlayer().getId());
             System.out.println("Top Line Winner: Player#" + gameData.getTopLinePlayer().getId());
-            System.out.println("Full House Winner: Player# " + gameData.getFullHouseWinner().getId());
+            System.out.println("Full House Winner: Player#" + gameData.getFullHouseWinner().getId());
 
             System.out.println("======================");
-            System.exit(0);
+            if(!test){
+                System.exit(0);
+            }
         }
     }
     @VisibleForTesting

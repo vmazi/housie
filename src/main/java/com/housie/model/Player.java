@@ -12,12 +12,14 @@ public class Player implements Runnable {
     private final GameData gameData;
     private final Ticket ticket;
     private int totalNumbersFound;
+    private Dealer dealer;
 
-    public Player(GameData gameData, int id) {
+    public Player(GameData gameData, Dealer dealer, int id) {
 
         this.id = id;
         this.gameData = gameData;
         this.totalNumbersFound = 0;
+        this.dealer = dealer;
         ticket = new Ticket(gameData);
         System.out.println("Player: " + id + "has the following Ticket:");
         ticket.printTicket();
@@ -47,7 +49,7 @@ public class Player implements Runnable {
                 //all winning combos may have been triggered by other players
                 if(!gameData.isGameComplete()) {
                     markNumber(gameData.getAnnouncedNumber());
-                    calculateWinners();
+                    calculateWinners(false);
                     // mark player turn as done
                     gameData.getPlayerTurnFlag()[id] = false;
                 }
@@ -66,7 +68,7 @@ public class Player implements Runnable {
     }
 
     @VisibleForTesting
-    public void calculateWinners(){
+    public void calculateWinners(boolean test){
         if(!gameData.isEarlyFiveSuccess()){
             if(this.totalNumbersFound >= 5){
                 gameData.setEarlyFivePlayer(this);
@@ -90,6 +92,7 @@ public class Player implements Runnable {
         if(this.totalNumbersFound == (gameData.getRowNumbers() * gameData.getRowCount())) {
             if(!gameData.isFullHouseSuccess()){
                 gameData.setFullHouseWinner(this);
+                dealer.notifyWinners(test);
             }
         }
     }

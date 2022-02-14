@@ -38,13 +38,13 @@ public class MainApplication implements CommandLineRunner {
 
         String input = "";
         myInput.nextLine(); //clean up input buffer
-        while(!input.contains("Q")){
+        while(!input.toUpperCase().contains("Q")){
             if(game.isGameComplete()){
                 break;
             }
             System.out.println(">>Press 'N' to generate next number");
             input = myInput.nextLine();
-            if(input.contains("N")){
+            if(input.toUpperCase().contains("N")){
                 dealer.setAnnouncedNumber();
                 synchronized (game.getInputLock()){
                     game.getInputLock().notify();
@@ -57,7 +57,7 @@ public class MainApplication implements CommandLineRunner {
     private void initializeGame(int players, GameData game, Dealer dealer) {
         List<Player> playerList = new ArrayList<>();
         for(int i = 0; i < players;i++){
-            playerList.add(new Player(game,i));
+            playerList.add(new Player(game,dealer,i));
         }
         Thread dealerThread  = new Thread(dealer);
         List<Thread> playerThreads = playerList.stream().map(Thread::new).collect(Collectors.toList());
