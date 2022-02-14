@@ -13,3 +13,7 @@ afterward cd into the target/ folder
 and run the jar from command line with
 
 java -jar housie-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
+Some TODOS:
+Need to add edge test cases for defending against hostile inputs
