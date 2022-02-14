@@ -13,6 +13,7 @@ public class Dealer implements Runnable {
     private boolean topLineNotified = false;
     private boolean earlyFiveNotified = false;
     private boolean fullHouseNotified = false;
+    private boolean allNotified = false;
     private final Set<Integer> numbersAnnouncedSet;
 
 
@@ -81,6 +82,18 @@ public class Dealer implements Runnable {
             System.out.println("We have a winner: Player# " + gameData.getFullHouseWinner().getId() +
                     " has won 'Full House' winning combination.");
             fullHouseNotified = true;
+        }
+        if(topLineNotified && earlyFiveNotified && fullHouseNotified ){
+            allNotified = true;
+            System.out.println("***** Game Over *****");
+            System.out.println("======================");
+            System.out.println("       Summary        ");
+            System.out.println("Early Five Winner: Player#" + gameData.getEarlyFivePlayer().getId());
+            System.out.println("Top Line Winner: Player#" + gameData.getTopLinePlayer().getId());
+            System.out.println("Full House Winner: Player# " + gameData.getFullHouseWinner().getId());
+
+            System.out.println("======================");
+            System.exit(0);
         }
     }
     @VisibleForTesting

@@ -38,7 +38,10 @@ public class MainApplication implements CommandLineRunner {
 
         String input = "";
         myInput.nextLine(); //clean up input buffer
-        while(!input.contains("Q") && !game.isGameComplete()){
+        while(!input.contains("Q")){
+            if(game.isGameComplete()){
+                break;
+            }
             System.out.println(">>Press 'N' to generate next number");
             input = myInput.nextLine();
             if(input.contains("N")){
@@ -48,11 +51,7 @@ public class MainApplication implements CommandLineRunner {
                 }
             }
         }
-        System.out.println("***** Game Over *****");
-        System.out.println("======================");
-        System.out.println("       Summary        ");
-        dealer.notifyWinners();
-        System.out.println("======================");
+
     }
 
     private void initializeGame(int players, GameData game, Dealer dealer) {
